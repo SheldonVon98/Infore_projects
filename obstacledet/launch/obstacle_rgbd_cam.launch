@@ -1,0 +1,58 @@
+<launch>
+    <arg name="cam_id"                default="_id1"/>
+    <include file="$(find obstacle_det)/launch/rs_d435i_id1.launch" />
+    <node pkg="obstacle_det" type="obstacle_det_node" name="obstacle_det$(arg cam_id)_node" output="screen">
+        <param name="point_sub" type="str" value="/camera$(arg cam_id)/depth/color/points"/>
+        <param name="obstacle_pub" type="str" value="/rgbd_pc$(arg cam_id)/obstacle"/>
+        <param name="ground_pub" type="str" value="/rgbd_pc$(arg cam_id)/ground"/>
+        <param name="laser_pub" type="str" value="/rgbd_pc$(arg cam_id)/laserCloud"/>
+        
+        <param name="leafSize" type="double" value="0.05"/>
+
+        <param name="ground_normal" type="str" value="y"/>
+        
+        <param name="upward_axis" type="str" value="y"/>
+        <param name="bottomLimit" type="double" value="-1.5"/>
+        <param name="topLimit" type="double" value="2.0"/>
+
+        <param name="forward_axis" type="str" value="z"/>
+        <param name="frontLimit" type="double" value="3"/>
+        <param name="backLimit" type="double" value="-10.0"/>
+        
+        <!-- NormalEstimation -->
+        <param name="neKSearch" type="int" value="8"/>
+        <!-- SACSegmentationFromNormals -->
+        <param name="segMaxIterations" type="int" value="100"/>
+        <param name="segDistanceThreshold" type="double" value="0.2"/>
+        <param name="segEpsAngle" type="double" value="25.0"/>
+        <param name="segNormalDistanceWeight" type="double" value="0.4"/>
+    </node>
+
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+
+        <remap from="cloud_in" to="/rgbd_pc$(arg cam_id)/laserCloud"/>
+        <remap from="scan" to="/rgbd_pc$(arg cam_id)/scan"/>
+        <rosparam>
+            target_frame: base_footprint # Leave disabled to output scan in pointcloud frame
+            transform_tolerance: 0.01
+            min_height: 0.0
+            max_height: 1.0
+
+            angle_min: -1.5708 # -M_PI/2
+            angle_max: 1.5708 # M_PI/2
+            angle_increment: 0.0087 # M_PI/360.0
+            scan_time: 0.3333
+            range_min: 0.45
+            range_max: 4.0
+            use_inf: true
+            inf_epsilon: 1.0
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 1
+        </rosparam>
+
+    </node>
+</launch>

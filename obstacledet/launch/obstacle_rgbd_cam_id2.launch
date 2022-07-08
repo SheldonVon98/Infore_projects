@@ -1,0 +1,27 @@
+<launch>
+    <arg name="cam_id"                default="_id2"/>
+    <include file="$(find obstacle_rgbd)/launch/rs_d435i$(arg cam_id).launch" />
+    <node pkg="obstacle_rgbd" type="obstacle_rgbd_node" name="obstacle_rgbd$(arg cam_id)_node" output="screen">
+        <param name="point_sub" type="str" value="/camera$(arg cam_id)/depth/color/points"/>
+        <param name="obstacle_pub" type="str" value="/rgbd_pc$(arg cam_id)/obstacle"/>
+        <param name="ground_pub" type="str" value="/rgbd_pc$(arg cam_id)/ground"/>
+        <param name="leafSize" type="double" value="0.1"/>
+        <param name="ground_normal" type="str" value="z"/>
+
+        <param name="upward_axis" type="str" value="y"/>
+        <param name="topLimit" type="double" value="3.0"/>
+        <param name="bottomLimit" type="double" value="-1.0"/>
+        <param name="forward_axis" type="str" value="z"/>
+        <param name="frontLimit" type="double" value="4.0"/>
+        <param name="backLimit" type="double" value="0.0"/>
+        
+        <!-- NormalEstimation -->
+        <param name="neKSearch" type="int" value="8"/>
+        <!-- SACSegmentationFromNormals -->
+        <param name="segMaxIterations" type="int" value="100"/>
+        <param name="segDistanceThreshold" type="double" value="0.2"/>
+        <param name="segEpsAngle" type="double" value="25.0"/>
+        <param name="segNormalDistanceWeight" type="double" value="0.4"/>
+    </node>
+
+</launch>

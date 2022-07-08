@@ -1,0 +1,13 @@
+<launch>
+    <arg name="camera_name" default="/rtsp_stream" />
+
+    <node pkg="rtsp_stream" type="rtsp_stream_node" name="rtsp_stream_node" output="screen">
+        <param name="rtspURL" type="str" value="rtsp://192.168.88.11/mainstream"/>
+        <param name="ImageRawNode" type="str" value="$(arg camera_name)/image_raw"/>
+        <param name="ImageCalNode" type="str" value="$(arg camera_name)/image"/>
+        <param name="CamInfoNode" type="str" value="$(arg camera_name)/camera_info"/>
+        <param name="CamName" type="str" value="FHD228"/>
+        <param name="CamParam" type="str" value="file:///home/sheldonvon/Project/cameracollections/Stonkam/FHD228_150dg/ost.yaml"/>
+        <param name="show_cv" type="bool" value="false"/>
+    </node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find obstacle_rgbd)/launch/obstacle_rgbd_cam_id1.launch" />
+    <include file="$(find obstacle_rgbd)/launch/obstacle_rgbd_cam_id2.launch" />
+</launch>

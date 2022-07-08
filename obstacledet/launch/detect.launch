@@ -1,0 +1,38 @@
+<launch>
+    <arg name="cam_id"                default=""/>
+    <arg name="camera"                default="camera$(arg cam_id)"/>
+
+    <!-- Launch Astra mini camera -->
+    <include file="$(find astra_camera)/launch/astra.launch" />
+
+    <!-- RGB-D camera obstacle detection module -->
+    <node pkg="obstacle_det" type="obstacle_det_rgbd_proc" name="obstacle_det$(arg cam_id)_node" output="screen">
+        <param name="point_sub" type="str" value="/camera$(arg cam_id)/depth/points"/>
+
+        <param name="obstacle_pub" type="str" value="/rgbd_pc$(arg cam_id)/obstacle"/>
+        <param name="ground_pub" type="str" value="/rgbd_pc$(arg cam_id)/ground"/>
+        <param name="laser_pub" type="str" value="/rgbd_pc$(arg cam_id)/laserCloud"/>
+        
+        <param name="leafSize" type="double" value="0.05"/>
+
+        <param name="ground_normal" type="str" value="y"/>
+        
+        <param name="upward_axis" type="str" value="y"/>
+        <param name="bottomLimit" type="double" value="-1.5"/>
+        <param name="topLimit" type="double" value="2.0"/>
+
+        <param name="forward_axis" type="str" value="z"/>
+        <param name="frontLimit" type="double" value="3"/>
+        <param name="backLimit" type="double" value="-10.0"/>
+        
+        <!-- NormalEstimation -->
+        <param name="neKSearch" type="int" value="8"/>
+        <!-- SACSegmentationFromNormals -->
+        <param name="segMaxIterations" type="int" value="100"/>
+        <param name="segDistanceThreshold" type="double" value="0.2"/>
+        <param name="segEpsAngle" type="double" value="25.0"/>
+        <param name="segNormalDistanceWeight" type="double" value="0.4"/>
+    </node>
+
+  </launch>
+  

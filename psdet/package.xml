@@ -1,0 +1,12 @@
+<package format="2">
+  <name>psdet_linebase</name>
+  <version>1.0.0</version>
+  <description>
+    Parking Slot detection package.
+  </description>
+  <maintainer email="sheldonvon@outlook.com">sv</maintainer>
+  <license>BSD</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

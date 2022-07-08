@@ -1,0 +1,13 @@
+<launch>
+    <node pkg="side_track" type="side_track_detect" name="side_track_detect" output="screen">
+        <param name="engine" type="str" value="/home/nvidia/camera_front_side/sideTrack/src/front_trt/engines/fscnn_fp32.engine"/>
+        <!-- <param name="engine" type="str" value="/home/nvidia/camera_front_side/sideTrack/src/front_trt/engines/fscnn_fp16.engine"/> -->
+        <param name="ImageSubNode" type="str" value="/front_camera/image_raw"/>
+        <param name="MsgPubNode" type="str" value="/front_msgs"/>
+        <param name="ImagePubNode" type="str" value="/front_result/image"/>
+        <param name="show_cv" type="bool" value="false"/>
+    </node>
+    <!-- <node name="image_view" pkg="image_view" type="image_view" respawn="false">
+        <remap from="image" to="/front_result/image" />
+    </node> -->
+</launch>

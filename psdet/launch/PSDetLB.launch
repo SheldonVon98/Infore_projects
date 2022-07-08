@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="psdet_linebase" type="psdet_linebase_node" name="psdet_linebase_node" output="screen"> 
+        <param name="image_width" type="int" value="96" />
+        <param name="image_height" type="int" value="256" />
+	<param name="engine_name" type="str" value="/home/PSDet-ROS/src/PSDetLineBase/yolov5.engine" />
+        <param name="raw_image_node" type="str" value="/sur_camera/image_raw" />
+    </node>
+    
+</launch>
